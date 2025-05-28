@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Cập nhật sản phẩm</h2>
+
+<mat-dialog-content>
+  <mat-form-field class="w-100">
+    <mat-label>Tên sản phẩm</mat-label>
+    <input matInput [(ngModel)]="product.name" />
+  </mat-form-field>
+
+  <mat-form-field class="w-100">
+    <mat-label>Mô tả</mat-label>
+    <input matInput [(ngModel)]="product.description">
+  </mat-form-field>
+
+  <mat-form-field class="w-100">
+    <mat-label>Giá tiền</mat-label>
+    <input type="number" matInput [(ngModel)]="product.price" />
+  </mat-form-field>
+
+  <div>
+    <p>Ảnh hiện tại:</p>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; ">
+      <img style="width: 80px; height: 80px;" *ngFor="let img of product.productImages" 
+           [src]="'http://localhost:8080/images/product/' + img.imageUrl"
+           alt="Ảnh sản phẩm" />
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <label for="imageUpload">Chọn ảnh mới:</label>
+    <input id="imageUpload" type="file" (change)="onFileSelected($event)" multiple />
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Hủy</button>
+  <button mat-flat-button color="primary" (click)="onSubmit()">Lưu</button>
+</mat-dialog-actions>

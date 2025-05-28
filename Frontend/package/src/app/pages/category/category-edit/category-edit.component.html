@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Chỉnh sửa danh mục</h2>
+
+<mat-dialog-content style="padding:10px">
+  <div *ngIf="data.image">
+    <img src="http://localhost:8080/images/category/{{ data.image }}" alt="Category Image" style="max-width: 150px; max-height: 100px; margin-top: 10px; margin-left: 40%;">
+  </div>
+
+  <input style="align-content: center; padding-bottom: 10px;" type="file" (change)="onFileSelected($event)" accept="image/*">
+
+  <div *ngIf="imagePreview">
+    <img [src]="imagePreview" alt="Preview" style="max-width: 150px; max-height: 100px; margin-top: 10px; margin-left: 40%;">
+  </div>
+  <mat-form-field appearance="fill" style="margin-top:10px;margin-left:10px" appearance="outline" color="primary">
+    <mat-label>Tên danh mục</mat-label>
+    <input matInput [(ngModel)]="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" appearance="outline" color="primary" style="margin-left: 10px;">
+    <mat-label>Mô tả</mat-label>
+    <input matInput [(ngModel)]="description">
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Hủy</button>
+  <button mat-flat-button color="primary" (click)="onSave()">Lưu</button>
+</mat-dialog-actions>

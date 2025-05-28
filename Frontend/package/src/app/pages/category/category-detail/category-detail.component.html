@@ -1,0 +1,99 @@
+<div style="text-align: center;padding:10px">
+  <h2>Chi tiết danh mục</h2>
+
+  <img src="http://localhost:8080/images/category/{{data.image}}" alt="Ảnh danh mục" width="150"
+    style="margin-bottom: 15px;">
+
+  <div style="margin-bottom: 10px;">
+    <p><strong>Tên:</strong> {{ data.name }}</p>
+    <p><strong>Mô tả:</strong> {{ data.description }}</p>
+    <p><strong>Trạng thái:</strong> {{ data.deleted ? 'Không hoạt động' : 'Hoạt động' }}</p>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h3>Danh mục con</h3>
+    <button mat-flat-button color="primary" (click)="addSubcategory()" style="height: 36px;">
+      Thêm
+    </button>
+  </div>
+
+  <div *ngIf="isAddingSub" style="margin-top: 10px;">
+    <table class="table">
+      <tr>
+        <td>
+          <mat-form-field appearance="fill" style="width: 200px;">
+            <input matInput placeholder="Tên danh mục con" [(ngModel)]="newSub.name">
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill" style="width: 200px;">
+            <input matInput placeholder="Mô tả" [(ngModel)]="newSub.description">
+          </mat-form-field>
+        </td>
+        <td>
+          <button mat-icon-button color="primary" (click)="saveSubcategory()">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="cancelAddSubcategory()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  <!-- Bảng danh mục con -->
+  <table class="table" *ngIf="data.subCategories?.length > 0; else noSub">
+    <thead>
+      <tr>
+        <th>Tên</th>
+        <th>Mô tả</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sub of data.subCategories">
+        <td *ngIf="editingSub?.id !== sub.id">{{ sub.name }}</td>
+        <td *ngIf="editingSub?.id === sub.id">
+          <mat-form-field appearance="fill" style="width: 100px;">
+            <input matInput [(ngModel)]="editingSub.name">
+          </mat-form-field>
+        </td>
+  
+        <td *ngIf="editingSub?.id !== sub.id">{{ sub.description }}</td>
+        <td *ngIf="editingSub?.id === sub.id">
+          <mat-form-field appearance="fill" style="width: 100px;">
+            <input matInput [(ngModel)]="editingSub.description">
+          </mat-form-field>
+        </td>
+  
+        <td>
+          <ng-container *ngIf="editingSub?.id !== sub.id; else editingButtons">
+            <button mat-icon-button color="primary" (click)="editSubcategory(sub)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteSubcategory(sub.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </ng-container>
+          <ng-template #editingButtons>
+            <button mat-icon-button color="primary" (click)="saveEditedSubcategory()">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="cancelEditSubcategory()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noSub>
+    <p><i>Không có danh mục con nào.</i></p>
+  </ng-template>
+
+  <div style="text-align: right; margin-top: 20px;">
+    <button mat-button (click)="close()">Đóng</button>
+  </div>
+</div>

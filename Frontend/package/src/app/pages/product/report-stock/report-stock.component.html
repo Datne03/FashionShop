@@ -1,0 +1,61 @@
+<mat-card class="cardWithShadow" style="padding:20px">
+
+<div class="mb-3 d-flex justify-content-between">
+
+  <div>
+    <select class="form-select w-auto d-inline-block" [(ngModel)]="filterStatus" (change)="filterData()">
+      <option value="">Tất cả trạng thái</option>
+      <option value="Còn hàng">Còn hàng</option>
+      <option value="Hết hàng">Hết hàng</option>
+    </select>
+  </div>
+  <div>
+    <button class="btn btn-success" (click)="exportToExcel()">
+      Xuất Excel
+    </button>
+  </div>
+</div>
+
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Sản phẩm</th>
+      <th>Tồn đầu kỳ</th>
+      <th>Nhập trong kỳ</th>
+      <th>Bán ra</th>
+      <th>Tồn cuối kỳ</th>
+      <th>Trạng thái</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of paginatedList; let i = index">
+      <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+      <td>{{ item.productName }}</td>
+      <td>{{ item.beginningStock }}</td>
+      <td>{{ item.receivedQuantity }}</td>
+      <td>{{ item.soldQuantity }}</td>
+      <td>{{ item.endingStock }}</td>
+      <td [ngClass]="{ 'text-danger': item.status === 'Hết hàng', 'text-success': item.status === 'Còn hàng' }">
+        {{ item.status }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Phân trang -->
+<nav *ngIf="totalPages > 1">
+  <ul class="pagination">
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <button class="page-link" (click)="changePage(currentPage - 1)">Trước</button>
+    </li>
+    <li class="page-item" *ngFor="let page of pagesArray" [class.active]="currentPage === page">
+      <button class="page-link" (click)="changePage(page)">{{ page }}</button>
+    </li>
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <button class="page-link" (click)="changePage(currentPage + 1)">Sau</button>
+    </li>
+  </ul>
+</nav>
+</mat-card>

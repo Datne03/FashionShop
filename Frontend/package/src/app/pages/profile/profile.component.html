@@ -1,0 +1,52 @@
+<mat-card class="cardWithShadow profile-wrapper">
+  <div class="profile-container">
+    
+    <!-- Cột trái: Avatar -->
+    <div class="avatar-section">
+      <img [src]="avatarUrl || defaultAvatar" alt="Avatar" class="avatar-img" />
+      <input type="file" (change)="onAvatarSelected($event)" hidden #avatarInput />
+      <button mat-stroked-button (click)="avatarInput.click()">Đổi Avatar</button>
+    </div>
+
+    <!-- Cột phải: Form thông tin -->
+    <div class="info-section">
+      <form [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" readonly />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone</mat-label>
+          <input matInput formControlName="phone" />
+        </mat-form-field>
+
+        <div class="action-buttons">
+          <button mat-raised-button color="primary" type="submit">Cập nhật thông tin</button>
+        </div>
+      </form>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="password-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mật khẩu cũ</mat-label>
+          <input matInput type="password" formControlName="oldPassword" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mật khẩu mới</mat-label>
+          <input matInput type="password" formControlName="newPassword" required />
+        </mat-form-field>
+
+        <div class="action-buttons">
+          <button mat-raised-button color="accent" type="submit">Đổi mật khẩu</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</mat-card>

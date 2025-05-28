@@ -1,0 +1,63 @@
+{
+  "type": "MaxHistoryTrackerFeaturizer",
+  "state_featurizer": {
+    "action_texts": [],
+    "entity_tag_specs": [],
+    "feature_states": {
+      "intent": {
+        "ask_best_seller": 0,
+        "ask_price": 1,
+        "ask_product": 2,
+        "ask_product_details": 3,
+        "ask_product_price": 4,
+        "ask_shipping": 5,
+        "back": 6,
+        "goodbye": 7,
+        "greet": 8,
+        "nlu_fallback": 9,
+        "out_of_scope": 10,
+        "restart": 11,
+        "session_start": 12
+      },
+      "action_name": {
+        "action_listen": 0,
+        "action_restart": 1,
+        "action_session_start": 2,
+        "action_default_fallback": 3,
+        "action_deactivate_loop": 4,
+        "action_revert_fallback_events": 5,
+        "action_default_ask_affirmation": 6,
+        "action_default_ask_rephrase": 7,
+        "action_two_stage_fallback": 8,
+        "action_unlikely_intent": 9,
+        "action_back": 10,
+        "...": 11,
+        "action_extract_slots": 12,
+        "action_get_product_price": 13,
+        "action_get_product_details": 14,
+        "action_get_best_seller": 15,
+        "utter_ask_price": 16,
+        "utter_ask_product": 17,
+        "utter_ask_product_name": 18,
+        "utter_ask_shipping": 19,
+        "utter_best_seller": 20,
+        "utter_goodbye": 21,
+        "utter_greet": 22,
+        "utter_no_information": 23,
+        "utter_product_details": 24,
+        "utter_product_price": 25
+      },
+      "entities": {
+        "category": 0,
+        "product_name": 1
+      },
+      "slots": {
+        "product_name_0": 0,
+        "category_0": 1
+      },
+      "active_loop": {}
+    }
+  },
+  "remove_duplicates": true,
+  "max_history": null
+}

@@ -1,0 +1,107 @@
+<div class="row mb-3">
+     <div class="col-md-3">
+          <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Tìm kiếm theo tên khách hàng">
+     </div>
+     <!-- [(ngModel)]="searchText"  -->
+     <!-- [(ngModel)]="searchStatus" -->
+     <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="searchStatus">
+               <option value="">-- Tất cả trạng thái --</option>
+               <option value="PENDING">Chờ xử lý</option>
+               <option value="CONFIRMED">Đang xử lý</option>
+               <option value="SHIPPED">Đang giao hàng</option>
+               <option value="DELIVERED">Hoàn thành</option>
+               <option value="CANCELED">Đã hủy</option>
+          </select>
+     </div>
+     <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="searchPaymentStatus">
+               <option value="">-- Tất cả trạng thái --</option>
+               <option value="CREDIT_CARD">Thanh toán online</option>
+               <option value="CASH_ON_DELIVERY">Thanh toán khi nhận hàng</option>
+          </select>
+     </div>
+     <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="searchMethod">
+               <option value="">-- Tất cả trạng thái --</option>
+               <option value="PAID">Chờ thanh toán</option>
+               <option value="UNPAID">Đã thanh toán</option>
+               <option value="REFUNDED">Hoàn hàng</option>
+          </select>
+     </div>
+</div>
+
+<mat-card class="responsive-card">
+     <mat-card-content>
+          <table class="table text-center">
+               <thead>
+                    <tr>
+                         <th>STT</th>
+                         <th>Ngày đặt</th>
+                         <th>Khách hàng</th>
+                         <th>Số tiền</th>
+                         <th>Trạng thái</th>
+                         <th>Trạng thái thanh toán</th>
+                         <th>Phương thức thanh toán</th>
+                         <th></th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr *ngFor="let item of listOrder 
+            | orderFilter:searchText:searchStatus  
+            | paymentFilter:searchText3:searchPaymentStatus
+            | paymentSttFilter:searchText2:searchMethod
+            | paginate: { itemsPerPage: 10, currentPage: page }; 
+            trackBy: trackByOrder">
+                         <td>{{ item.id }}</td>
+                         <td>{{ item.createdAt | date:'dd/MM/yyyy' }}</td>
+                         <td>{{ item.user.username }}</td>
+                         <td>{{ item.totalPrice }}</td>
+                         <td>
+                              <select class="form-select" [(ngModel)]="item.status"
+                                   (change)="onChangeOrderStatus(item)">
+                                   <option *ngFor="let status of orderStatuses" [value]="status">{{
+                                        status === 'PENDING' ? 'Chờ xử lý' :
+                                        status === 'CONFIRMED' ? 'Đang xử lý' :
+                                        status === 'SHIPPED' ? 'Đang giao hàng' :
+                                        status === 'DELIVERED' ? 'Hoàn thành' :
+                                        status === 'CANCELED' ? 'Đã hủy' :
+                                        'Không xác định'
+                                        }}</option>
+                              </select>
+                         </td>
+
+                         <td>
+                              <select class="form-select" [(ngModel)]="item.paymentStatus"
+                                   (change)="onChangePaymentStatus(item)">
+                                   <option *ngFor="let status of paymentStatuses" [value]="status">{{
+                                        status === 'PAID' ? 'Chờ thanh toán' :
+                                        status === 'UNPAID' ? 'Đã thanh toán' :
+                                        status === 'REFUNDED' ? 'Hoàn hàng' :
+                                        'Không xác định'
+                                        }}</option>
+                              </select>
+                         </td>
+
+                         <td>
+                              {{
+                              item?.paymentMethod === 'CREDIT_CARD' ? 'Thanh toán Online' :
+                              item?.paymentMethod === 'CASH_ON_DELIVERY' ? 'Thanh toán khi nhận hàng' :
+                              'Không xác định'
+                              }}
+
+                         </td>
+                         <td>
+                              <button class="btn btn-outline-primary"
+                                   [routerLink]="['/detail-order', item.id]">Xem</button>
+                         </td>
+                    </tr>
+               </tbody>
+          </table>
+          <div class="pagination-container" style="display: flex; justify-content: center; align-items: center;">
+               <pagination-controls (pageChange)="page = $event"></pagination-controls>
+          </div>
+          <!-- <button mat-raised-button color="primary" (click)="updateShippedOrders()">Cập nhật đơn hàng SHIPPED</button> -->
+
+     </mat-card-content>
+</mat-card>

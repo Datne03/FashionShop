@@ -1,0 +1,21 @@
+version: "3.1"
+
+stories:
+  - story: Greet and ask product
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: ask_product
+      - action: utter_ask_product
+  
+  - story: Ask price and shipping
+    steps:
+      - intent: ask_price
+      - action: utter_ask_price
+      - intent: ask_shipping
+      - action: utter_ask_shipping
+  
+  - story: Goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye

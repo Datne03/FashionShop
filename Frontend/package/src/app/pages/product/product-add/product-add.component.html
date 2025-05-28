@@ -1,0 +1,102 @@
+<h2 mat-dialog-title>Thêm sản phẩm</h2>
+<mat-dialog-content style="margin-top:20px">
+  <form (ngSubmit)="submit()">
+
+    <!-- Chọn category -->
+    <mat-form-field appearance="outline" class="w-full" style="margin-top:10px">
+      <mat-label>Danh mục</mat-label>
+      <mat-select [(ngModel)]="newProduct.categoryId" name="category" required
+        (selectionChange)="onCategoryChange($event)">
+        <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Chọn subcategory -->
+    <mat-form-field appearance="outline" class="w-full" style="margin-left:10px;margin-top:10px">
+      <mat-label>Danh mục con</mat-label>
+      <mat-select [(ngModel)]="newProduct.subcategoryId" name="subcategory" required>
+        <mat-option *ngFor="let sub of subCategories" [value]="sub.id">{{ sub.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full" style="margin-left:10px;margin-top:10px">
+      <mat-label>Nhà cung cấp</mat-label>
+      <mat-select [(ngModel)]="newProduct.supplierId" name="supplier" required>
+        <mat-option *ngFor="let sup of suppliers" [value]="sup.id">{{ sup.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full" style="margin-top:10px">
+      <mat-label>Tên sản phẩm</mat-label>
+      <input matInput [(ngModel)]="newProduct.name" name="name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full" style="margin-left:10px;margin-top:10px">
+      <mat-label>Giá tiền</mat-label>
+      <input matInput type="number" [(ngModel)]="newProduct.price" name="price" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full" style="margin-left:10px;">
+      <mat-label>Chất liệu</mat-label>
+      <input matInput [(ngModel)]="newProduct.material" name="material">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full" style="width:100%">
+      <mat-label>Mô tả</mat-label>
+      <textarea matInput rows="1" [(ngModel)]="newProduct.description" name="description"></textarea>
+    </mat-form-field>
+
+    <!-- Thêm variant -->
+    <div class="variant-section" style="margin-top:10px">
+      <h4>Biến thể sản phẩm</h4>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Kích cỡ</mat-label>
+        <mat-select [(ngModel)]="newVariant.size" name="variantSize">
+          <mat-option *ngFor="let s of sizes" [value]="s">{{ s }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="margin-left:10px">
+        <mat-label>Màu</mat-label>
+        <mat-select [(ngModel)]="newVariant.color" name="variantColor">
+          <mat-option *ngFor="let c of colors" [value]="c">{{ c }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="margin-left:10px">
+        <mat-label>Số lượng</mat-label>
+        <input matInput type="number" [(ngModel)]="newVariant.stock" name="variantStock">
+      </mat-form-field>
+
+      <button class="btn btn-primary" type="button" (click)="addVariant()">Thêm variant</button>
+
+      <div *ngIf="newProduct.variants.length > 0">
+        <p>Danh sách variant:</p>
+        <ul>
+          <li *ngFor="let v of newProduct.variants; let i = index">
+            {{ v.size }} - {{ v.color }} - SL: {{ v.stock }}
+            <button class="btn btn-secondary" (click)="removeVariant(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Upload nhiều ảnh -->
+    <div style="margin-top: 10px;">
+      <label>Chọn ảnh sản phẩm:</label>
+      <input type="file" (change)="onFileSelected($event)" multiple>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-4" style="text-align: right;">
+      <button mat-flat-button color="primary" type="submit">Tạo sản phẩm</button>
+      <button class="btn btn-warning" type="button" (click)="saveImages()" style="margin-left:10px"
+        [disabled]="!isProductCreated">Lưu ảnh</button>
+      <button class="btn btn-success" type="button" (click)="cancel()" style="margin-left:10px">Hủy</button>
+    </div>
+
+  </form>
+</mat-dialog-content>

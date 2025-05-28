@@ -1,0 +1,26 @@
+<mat-card class="cardWithShadow" style="margin-left:30px">
+  <mat-card-content>
+    <mat-card-title>Sản phẩm bán chạy</mat-card-title>
+    <table class="product-table" style="width: 100%; border-collapse: collapse; margin: 16px;">
+      <thead>
+        <tr style="text-align: left">
+          <th>Hình ảnh</th>
+          <th>Tên sản phẩm</th>
+          <th>Giá</th>
+          <th>Đã bán</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products" style="border-bottom: 1px solid #eee;">
+          <td style="padding: 8px;">
+            <img [src]="'http://localhost:8080/images/product/' + product.productImages[0]?.imageUrl"
+              alt="{{ product.name }}" style="height: 50px; width: 50px; object-fit: cover; border-radius: 4px;" />
+          </td>
+          <td style="padding: 8px;">{{ product.name }}</td>
+          <td style="padding: 8px;">{{ product.price | number:'1.0-0' }}₫</td>
+          <td style="padding: 8px;">{{ product.soldQuantity }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

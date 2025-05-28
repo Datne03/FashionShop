@@ -1,0 +1,33 @@
+<mat-card class="responsive-card">
+     <button mat-flat-button color="primary" style="left: 15px;top: 15px; width: 200px" type="button" mat-button color="primary" (click)="openCreateDialog()">Thêm danh mục</button>
+     <mat-card-content>
+          <table class="table">
+               <thead>
+                    <tr>
+                         <th>Tên danh mục</th>
+                         <th>Mô tả</th>
+                         <th>Ảnh danh mục</th>
+                         <th>Danh mục cha</th>
+                         <th>Hoạt động</th>
+                         <th>Hành động</th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr *ngFor="let item of listCategorySub; trackBy: trackByCategorySub">
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.description }}</td>
+                      <td><img src="http://localhost:8080/images/category/{{ item.image }}" alt="Category" width="50"></td>
+                      <td>{{ item.parent.name }}</td>
+                      <td>{{ item.deleted ? 'Không hoạt động' : 'Hoạt động' }}</td>
+                      <td>
+                         <button mat-flat-button color="secondary" (click)="openDetail(item)">Xem</button>
+                         <button mat-flat-button color="primary" (click)="openEditDialog(item)">Sửa</button>
+                         <button mat-flat-button color="warn" (click)="openDeleteDialog(item)">Xóa</button>
+                    </td>
+                    </tr>
+                  </tbody>
+                  
+                  
+          </table>
+     </mat-card-content>
+</mat-card>

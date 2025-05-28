@@ -1,0 +1,12 @@
+<div class="vnpay-return">
+  <h2>Kết quả thanh toán VNPay</h2>
+  <ng-container *ngIf="paymentStatus === 'success'; else failedTpl">
+    <p>🎉 Thanh toán thành công cho đơn hàng #{{ orderId }}.</p>
+    <button mat-raised-button color="primary" routerLink="/orders">Xem đơn hàng</button>
+  </ng-container>
+  <ng-template #failedTpl>
+    <p>❌ Thanh toán thất bại hoặc bị hủy.</p>
+    <button mat-raised-button color="warn" routerLink="/checkout">Thử lại</button>
+    
+  </ng-template>
+</div>

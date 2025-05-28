@@ -1,0 +1,45 @@
+<mat-card class="responsive-card">
+     <button mat-flat-button color="primary" style="left: 15px;top: 15px; width: 200px" type="button" mat-button
+          color="primary" (click)="openCreateDialog()">Thêm khuyến mãi</button>
+     <mat-card-content>
+          <table class="table text-center">
+               <thead>
+                    <tr>
+                         <th>Mã</th>
+                         <th>Giảm giá</th>
+                         <th>Mô tả</th>
+                         <th>Số lần dùng</th>
+                         <th>Ngày bắt đầu</th>
+                         <th>Ngày kết thúc</th>
+                         <th></th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr *ngFor="let item of listVoucher; trackBy: trackByVoucher">
+                         <td>{{ item.code }}</td>
+                         <td>{{ item.discount }}</td>
+                         <td>{{ item.description }}</td>
+                         <td>{{ item.useAmount}}</td>
+                         <td>{{ item.startDate | date:'dd/MM/yyyy' }}</td>
+                         <td>{{ item.endDate | date:'dd/MM/yyyy' }}</td>
+                         <td>
+                              <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+                                   <mat-icon>more_vert</mat-icon>
+                              </button>
+                              <mat-menu #menu="matMenu">
+                                   <button mat-menu-item (click)="openEditDialog(item)">
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Sửa</span>
+                                      </button>
+                                      
+                                   <button mat-menu-item (click)="openDeleteDialog(item)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Xóa</span>
+                                   </button>
+                              </mat-menu>
+                         </td>
+                    </tr>
+               </tbody>
+          </table>
+     </mat-card-content>
+</mat-card>

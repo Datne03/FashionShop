@@ -1,0 +1,37 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - Xin chào
+      - Chào bạn
+      - Hello
+      - Hi
+
+  - intent: ask_product
+    examples: |
+      - Shop có bán áo sơ mi không?
+      - Tôi muốn xem váy mùa hè
+      - Có quần jean nam không?
+      - Có giày thể thao nữ nào mới không?
+      - Giới thiệu cho tôi vài mẫu đồ công sở
+
+  - intent: ask_price
+    examples: |
+      - Có khuyến mãi gì không?
+      - Giá của chiếc áo này bao nhiêu?
+      - Hôm nay shop có giảm giá không?
+
+  - intent: ask_shipping
+    examples: |
+      - Shop có giao hàng tận nơi không?
+      - Phí ship bao nhiêu?
+      - Thời gian giao hàng bao lâu?
+      - Có giao hàng toàn quốc không?
+
+  - intent: goodbye
+    examples: |
+      - Cảm ơn nhé
+      - Tạm biệt
+      - Bye
+      - Hẹn gặp lại

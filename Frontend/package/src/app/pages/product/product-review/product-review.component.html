@@ -1,0 +1,30 @@
+<mat-card class="responsive-card">
+  <!-- Danh sách sản phẩm -->
+  <mat-card-content>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Tên sản phẩm</th>
+          <th>Ảnh sản phẩm</th>
+          <th>Số lượt bình luận</th>
+          <th>Đánh giá</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listProducts">
+          <td>{{ item.name }}</td>
+          <td><img src="http://localhost:8080/images/product/{{ item.productImages[0]?.imageUrl }}" alt="Category"
+              width="50"></td>
+
+          <!-- Lấy thông tin reviewCount và averageRating từ productReviews -->
+          <td>{{ getProductReviewData(item.id).reviewCount }}</td>
+          <td>{{ getProductReviewData(item.id).averageRating.toFixed(1) || 0.0 }}</td>
+          <td>
+            <button mat-flat-button color="primary" [routerLink]="['/review', item.id]">Xem</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

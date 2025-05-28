@@ -1,0 +1,107 @@
+/* Tổng thể dialog */
+mat-dialog-content {
+  padding: 16px 24px !important;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+mat-dialog-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Ảnh sản phẩm */
+img.img-fluid {
+  width: 280px !important;
+  height: 280px !important;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Nhóm nút chọn */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Nút chọn màu và size */
+.btn {
+  font-size: 13px;
+  padding: 6px 12px;
+  max-width: 25px;
+  transition: all 0.2s ease-in-out;
+  border-radius: 6px;
+}
+
+.btn-outline-secondary,
+.btn-outline-dark {
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.btn-secondary,
+.btn-dark {
+  background-color: #1976d2;
+  color: #fff;
+  border: 1px solid #125aa2;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Tiêu đề và giá */
+h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.text-muted {
+  color: #888 !important;
+}
+
+.text-danger {
+  color: #d32f2f !important;
+}
+
+/* Form control */
+.form-label {
+  font-weight: 500;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.form-control,
+.form-control-sm {
+  font-size: 13px;
+  padding: 4px 8px;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Khoảng cách giữa các nhóm */
+.mb-3 {
+  margin-bottom: 12px !important;
+}
+
+.mb-2 {
+  margin-bottom: 8px !important;
+}
+
+.mb-1 {
+  margin-bottom: 4px !important;
+}
+
+/* Dialog actions */
+mat-dialog-actions {
+  padding: 12px 24px;
+}
+
+mat-dialog-actions button {
+  min-width: 100px;
+}

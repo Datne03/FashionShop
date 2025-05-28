@@ -1,0 +1,23 @@
+.img-thumbnail {
+  cursor: pointer;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.img-thumbnail:hover {
+  transform: scale(1.1); /* Phóng to khi hover */
+  transition: 0.3s;
+}
+.review-item {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.review-item .fa-star,
+.review-item .fa-star-half-alt,
+.review-item .far.fa-star {
+  font-size: 0.9rem;
+}

@@ -1,0 +1,37 @@
+<mat-card class="responsive-card">
+     <mat-card-content>
+          <table class="table text-center">
+               <thead>
+                    <tr>
+                         <th>Tên</th>
+                         <th>Email</th>
+                         <th>SDT</th>
+                         <th>Hoạt động</th>
+                         <th>Avatar</th>
+                         <th></th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr *ngFor="let item of listUser; trackBy: trackByUser">
+                         <td>{{ item.username }}</td>
+                         <td>{{ item.email }}</td>
+                         <td>{{ item.phone }}</td>
+                         <td>{{ item.active ? 'Hoạt động' : 'Không Hoạt động' }}</td>
+                         <!-- <td>
+                              <ng-container *ngFor="let sub of item.subCategories; let last = last">
+                                {{ sub.name }}<span *ngIf="!last">, </span>
+                              </ng-container>
+                            </td> -->
+                            <td><img src="http://localhost:8080/images/avatar/{{ item.avatar }}" alt="Avatar"
+                              width="50"></td>
+                           
+
+                         <td>
+                              <button mat-flat-button mat-flat-button color="secondary" [routerLink]="['/user-detail', item.id]">Xem</button>
+                              <button style="margin-left: 10px;" mat-flat-button mat-flat-button color="danger" (click)="openDeleteDialog(item)" >Xóa</button>
+                         </td>
+                    </tr>
+               </tbody>
+          </table>
+     </mat-card-content>
+</mat-card>

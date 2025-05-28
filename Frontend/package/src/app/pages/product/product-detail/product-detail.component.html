@@ -1,0 +1,101 @@
+<div style="text-align: center;">
+  <h2 mat-dialog-title>Thông tin sản phẩm</h2>
+  <mat-dialog-content>
+    <img [src]="'http://localhost:8080/images/product/' + data.productImages[0]?.imageUrl" alt="Product Image"
+      width="200">
+    <p><strong>Tên sản phẩm:</strong> {{ data.name }}</p>
+    <p><strong>Mô tả:</strong> {{ data.description }}</p>
+    <p><strong>Giá tiền gốc:</strong> {{ data.price }}</p>
+
+    <!-- Bảng danh sách variant -->
+    <!-- <h3>Danh sách variant</h3>
+    <div style="margin-top: 16px;">
+      <button mat-flat-button color="primary" (click)="onAddVariant()">Thêm Variant</button>
+    </div> -->
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3>Danh sách biến thể</h3>
+      <button mat-flat-button color="primary" (click)="onAddVariant()">Thêm biến thể</button>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Kích cỡ</th>
+          <th>Màu sắc</th>
+          <th>Số lượng</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="isAddingProduct">
+          <td>
+            <mat-form-field appearance="fill" style="width: 100px;">
+              <input matInput placeholder="Size" [(ngModel)]="newProduct.size">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field appearance="fill" style="width: 100px;">
+              <input matInput placeholder="Color" [(ngModel)]="newProduct.color">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field appearance="fill" style="width: 100px;">
+              <input matInput placeholder="Stock" [(ngModel)]="newProduct.stock">
+            </mat-form-field>
+          </td>
+          <td>
+            <button mat-icon-button color="primary" (click)="saveProduct()">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="cancelAddProduct()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr *ngFor="let variant of data.variants">
+          <td *ngIf="edittingPro?.id !== variant.id">{{ variant.size }}</td>
+          <td *ngIf="edittingPro?.id === variant.id">
+            <mat-form-field appearance="fill" style="width: 100px;">
+              <input matInput [(ngModel)]="edittingPro.size">
+            </mat-form-field>
+          </td>
+          <td *ngIf="edittingPro?.id !== variant.id">{{ variant.color }}</td>
+          <td *ngIf="edittingPro?.id === variant.id">
+            <mat-form-field appearance="fill" style="width: 100px;">
+              <input matInput [(ngModel)]="edittingPro.color">
+            </mat-form-field>
+          </td>
+          <td *ngIf="edittingPro?.id !== variant.id">{{ variant.stock }}</td>
+          <td *ngIf="edittingPro?.id === variant.id">
+            <mat-form-field appearance="fill" style="width: 100px;">
+              <input matInput [(ngModel)]="edittingPro.stock">
+            </mat-form-field>
+          </td>
+          <td>
+            <ng-container *ngIf="edittingPro?.id !== variant.id; else editingButtons">
+              <button mat-icon-button color="primary" (click)="onEditVariant(variant)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="onDeleteVariant(variant.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </ng-container>
+            <ng-template #editingButtons>
+              <button mat-icon-button color="primary" (click)="saveEditedPro()">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="cancelEditPro()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Đóng</button>
+  </mat-dialog-actions>
+
+
+</div>

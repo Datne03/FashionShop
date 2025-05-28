@@ -1,0 +1,56 @@
+<mat-card class="responsive-card">
+     <button mat-flat-button color="primary" style="left: 15px;top: 15px; width: 200px" type="button" mat-button
+          color="primary" (click)="openCreateDialog()">Thêm danh mục</button>
+     <mat-card-content>
+          <table class="table text-center">
+               <thead>
+                    <tr>
+                         <th>Tên danh mục</th>
+                         <th>Mô tả</th>
+                         <th>Ảnh danh mục</th>
+                         <th>Số danh mục con</th>
+                         <th>Hoạt động</th>
+                         <th></th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr *ngFor="let item of listCategory; trackBy: trackByCategory">
+                         <td>{{ item.name }}</td>
+                         <td>{{ item.description }}</td>
+                         <td><img style="height: 50px;" src="http://localhost:8080/images/category/{{ item.image }}" alt="Category"
+                                   width="50"></td>
+                         <!-- <td>
+                              <ng-container *ngFor="let sub of item.subCategories; let last = last">
+                                {{ sub.name }}<span *ngIf="!last">, </span>
+                              </ng-container>
+                            </td> -->
+                         <td>{{ item.subCategories?.length || 0 }}</td>
+                         <td>{{ item.deleted ? 'Không hoạt động' : 'Hoạt động' }}</td>
+                         <td>
+                              <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+                                   <mat-icon>more_vert</mat-icon>
+                              </button>
+                              <mat-menu #menu="matMenu">
+                                   <button mat-menu-item (click)="openDetail(item)">
+                                        <mat-icon>visibility</mat-icon>
+                                        <span>Xem</span>
+                                   </button>
+                                   <button mat-menu-item (click)="openEditDialog(item)">
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Sửa</span>
+                                   </button>
+                                   <button mat-menu-item (click)="openDeleteDialog(item)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Xóa</span>
+                                   </button>
+                                   <button mat-menu-item (click)="openActiveDialog(item)">
+                                        <mat-icon>check_circle</mat-icon>
+                                        <span>Kích hoạt</span>
+                                   </button>
+                              </mat-menu>
+                         </td>
+                    </tr>
+               </tbody>
+          </table>
+     </mat-card-content>
+</mat-card>

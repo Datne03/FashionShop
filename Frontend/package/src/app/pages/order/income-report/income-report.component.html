@@ -1,0 +1,66 @@
+<div class="container">
+  <div>
+   <div class="row">
+    <div class="col-md-3">
+       <label for="from">Từ ngày:</label>
+    <input class="form-control" type="date" id="from" [(ngModel)]="fromDate" />
+    </div>
+    <div class="col-md-3">
+        <label for="to">Đến ngày:</label>
+    <input class="form-control" type="date" id="to" [(ngModel)]="toDate" />
+    </div>
+   </div>
+  </div>
+
+  <div style="margin-top:10px">
+    <button mat-flat-button color="primary" (click)="getRevenueReport()">Báo cáo tổng doanh thu</button>
+    <button class="btn btn-primary" (click)="getDailyRevenueReport()" style="margin-left:10px">Báo cáo doanh thu hàng ngày</button>
+  </div>
+
+
+  <div *ngIf="revenueReport" style="margin-top:10px">
+    <div *ngIf="pieChartOptions" class="card" style="padding: 20px;">
+      <h4 style="font-size: 16px;">Phương thức thanh toán</h4>
+      <apx-chart [series]="pieChartOptions.series" [chart]="pieChartOptions.chart" [labels]="pieChartOptions.labels">
+      </apx-chart>
+    </div>
+
+    <div *ngIf="columnChartOptions" class="card" style="padding: 20px; margin-top: 20px;">
+      <h4 style="font-size: 16px;">Tổng doanh thu & đơn đặt hàng</h4>
+      <apx-chart [series]="columnChartOptions.series" [chart]="columnChartOptions.chart"
+        [xaxis]="columnChartOptions.xaxis" [plotOptions]="columnChartOptions.plotOptions">
+      </apx-chart>
+    </div>
+
+    <div class="mt-4" class="card" style="padding: 20px; margin-top: 20px;">
+      <h4 style="font-size: 16px;">Phương thức thanh toán</h4>
+
+      <div>
+        <button class="btn btn-secondary" (click)="exportRevenuePdf()">Xuất PDF</button>
+        <button class="btn btn-success" (click)="exportRevenueExcel()" style="margin-left:10px">Xuất Excel</button>
+      </div>
+      <apx-chart *ngIf="dailyRevenueChartOptions" [series]="dailyRevenueChartOptions.series"
+        [chart]="dailyRevenueChartOptions.chart" [xaxis]="dailyRevenueChartOptions.xaxis"
+        [plotOptions]="dailyRevenueChartOptions.plotOptions" [tooltip]="dailyRevenueChartOptions.tooltip">
+      </apx-chart>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="dailyRevenueReport.length > 0">
+    <h3 style="font-size: 18px;">Daily Revenue Report</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of dailyRevenueReport">
+          <td>{{ report.date }}</td>
+          <td>{{ report.revenue }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+</div>

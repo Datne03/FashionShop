@@ -1,0 +1,52 @@
+<mat-card class="responsive-card">
+  <button mat-flat-button color="primary" style="left: 15px;top: 15px; width: 200px" type="button"
+    (click)="openCreateProductDialog()">Thêm sản phẩm</button>
+
+  <!-- Danh sách sản phẩm -->
+  <mat-card-content>
+    <table class="table text-center">
+      <thead>
+        <tr>
+          <th>Tên sản phẩm</th>
+          <th>Mô tả</th>
+          <th>Giá tiền gốc</th>
+          <th>Ảnh sản phẩm</th>
+          <th>Nhà cung cấp</th>
+          <th>Hoạt động</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listProducts; trackBy: trackById">
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.price }}</td>
+          <td><img style="width: 50px; height: 50px" src="http://localhost:8080/images/product/{{ item.productImages[0]?.imageUrl }}" alt="Category"></td>
+          <td>{{ item?.supplier?.name || "Không cung cấp"}}</td>
+          <td>{{ item.deleted ? "Không hoạt động" : "Hoạt động"}}</td>
+
+          <td>
+            <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openDetail(item)">
+                <mat-icon>visibility</mat-icon>
+                <span>Xem</span>
+              </button>
+              <button mat-menu-item (click)="openEditDialog(item)">
+                <mat-icon>edit</mat-icon>
+                <span>Sửa</span>
+              </button>
+              <button mat-menu-item (click)="openDeleteDialog(item)">
+                <mat-icon>delete</mat-icon>
+                <span>Xóa</span>
+              </button>
+            </mat-menu>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

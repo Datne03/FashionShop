@@ -1,0 +1,21 @@
+<mat-form-field appearance="fill">
+  <mat-label>Chọn danh mục cha</mat-label>
+  <mat-select [(ngModel)]="parentId">
+    <mat-option *ngFor="let cate of listCategory" [value]="cate.id">
+      {{ cate.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Tên danh mục con</mat-label>
+  <input matInput [(ngModel)]="name" />
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Mô tả</mat-label>
+  <input matInput [(ngModel)]="description" />
+</mat-form-field>
+
+<button mat-raised-button color="primary" (click)="onSave()">Lưu</button>
+<button mat-raised-button color="warn" (click)="onCancel()">Hủy</button>

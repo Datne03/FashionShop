@@ -1,0 +1,33 @@
+<mat-card class="cardWithShadow" style="margin-left:30px; width: 1140px;">
+    <div class=" p-3 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">Thống kê doanh thu</h5>
+            <button class="btn btn-light btn-sm" (click)="toggleFilter()">⋮</button>
+        </div>
+    
+        <div *ngIf="showFilter" class="mb-3 d-flex align-items-center gap-2 flex-wrap">
+            <label class="mb-0">Chế độ:</label>
+            <select class="form-control form-control-sm w-auto" [(ngModel)]="mode" (change)="fetchData()">
+              <option value="day">Theo ngày</option>
+              <option value="month">Theo tháng</option>
+              <option value="year">Theo năm</option>
+            </select>
+          
+            <ng-container *ngIf="mode !== 'year'">
+              <label class="mb-0">Năm:</label>
+              <input type="number" class="form-control form-control-sm w-auto" [(ngModel)]="year" (change)="fetchData()">
+            </ng-container>
+          
+            <ng-container *ngIf="mode === 'day'">
+              <label class="mb-0">Tháng:</label>
+              <input type="number" class="form-control form-control-sm w-auto" [(ngModel)]="month" (change)="fetchData()">
+            </ng-container>
+          </div>
+          
+    
+        <!-- Biểu đồ cột -->
+        <apx-chart *ngIf="chartOptions.chart" [series]="chartOptions.series!" [chart]="chartOptions.chart"
+            [xaxis]="chartOptions.xaxis!" [dataLabels]="chartOptions.dataLabels!" [title]="chartOptions.title!"></apx-chart>
+    
+    </div>
+</mat-card>

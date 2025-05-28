@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-title style="padding:20px">Danh sách bình luận của sản phẩm ID: {{ productId }}</mat-card-title>
+  <mat-card-content>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Người dùng</th>
+          <th>Nội dung</th>
+          <th>Đánh giá</th>
+          <th>Ngày</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let review of reviews">
+          <td>{{ review.user.username }}</td>
+          <td>{{ review.review }}</td>
+          <td>{{ review.rating }}</td>
+          <td>{{ review.createdAt | date: 'short' }}</td>
+          <td>
+            <button mat-icon-button (click)="deleteReview(review.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

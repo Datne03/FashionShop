@@ -1,0 +1,35 @@
+<mat-card class="responsive-card">
+     <mat-card-content>
+          <table class="table text-center">
+               <thead>
+                    <tr>
+                         <th>STT</th>
+                         <th>Khách hàng</th>
+                         <th>Đơn hàng</th>
+                         <th>Vấn đề</th>
+                         <th>Ngày tạo</th>
+                         <th>Trạng thái</th>
+                         <th></th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr *ngFor="let item of listSupport; trackBy: trackBySupport">
+                         <td>{{ item.id }}</td>
+                         <td>{{ item.user.username }}</td>
+                         <td>{{ item.order.id }}</td>
+                         <td>{{ item.issue }}</td>
+                         <td>{{ item.createdAt | date:'dd/MM/yyyy' }}</td>
+                         <td>{{
+                              item.status === 'PENDING' ? 'Chờ xử lý' :
+                              item.status === 'REPLIED' ? 'Đã phản hồi' :
+                              'Không xác định'
+                              }}</td>
+                         <td>
+                              <button class="btn btn-outline-primary"
+                                   [routerLink]="['/support-detail', item.id]">Xem</button>
+                         </td>
+                    </tr>
+               </tbody>
+          </table>
+     </mat-card-content>
+</mat-card>

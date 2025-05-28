@@ -1,0 +1,46 @@
+<label style="margin-top:20px; margin-left:20px"><b>Thêm khuyen mai</b></label>
+     <form style="padding:20px">
+     <mat-form-field style="margin-right: 16px" appearance="outline" class="full-width">
+          <mat-label>Mã</mat-label>
+          <input matInput [(ngModel)]="code" name="code" />
+     </mat-form-field>
+
+     <mat-form-field style="margin-right: 16px" appearance="outline" class="full-width">
+          <mat-label>Giảm giá (%)</mat-label>
+          <input matInput type="number" [(ngModel)]="discount" name="discount" />
+     </mat-form-field>
+
+     <mat-form-field style="margin-right: 16px" appearance="outline" class="full-width">
+          <mat-label>Mô tả</mat-label>
+          <input matInput [(ngModel)]="description" name="description">
+     </mat-form-field>
+
+     <mat-form-field style="margin-right: 16px" appearance="outline" class="full-width">
+          <mat-label>Ngày bắt đầu</mat-label>
+          <input matInput type="date" [(ngModel)]="startDate" name="startDate" />
+     </mat-form-field>
+
+     <mat-form-field style="margin-right: 16px" appearance="outline" class="full-width">
+          <mat-label>Ngày kết thúc</mat-label>
+          <input matInput type="date" [(ngModel)]="endDate" name="endDate" />
+     </mat-form-field>
+
+     <!-- Danh mục -->
+     <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Danh mục</mat-label>
+          <mat-select [(ngModel)]="cateId" name="cateId" required>
+               <mat-option *ngFor="let cate of listCategory" [value]="cate.id">
+                    {{ cate.name }}
+               </mat-option>
+          </mat-select>
+     </mat-form-field>
+
+
+     <div class="actions">
+          <button class="btn btn-secondary" (click)="onSave()"
+               [disabled]="!code || discount <= 0 || !startDate || !endDate || !cateId">
+               Lưu
+          </button>
+          <button  style="margin-left: 10px;" class="btn btn-primary" (click)="onCancel()">Hủy</button>
+     </div>
+</form>

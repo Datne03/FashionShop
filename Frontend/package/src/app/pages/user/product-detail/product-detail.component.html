@@ -1,0 +1,178 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<app-navbar></app-navbar>
+
+<div class="container mt-3">
+  <mat-card class="cardWithShadow">
+    <div style="margin: 25px;" class="row" *ngIf="product">
+      <div class="col-md-6" style="width: 500px; height: 500px; align-items: center;">
+        <img *ngIf="selectedImage" [src]="'http://localhost:8080/images/product/' + selectedImage"
+          class="img-fluid rounded shadow" style="width: 450px; height: 450px; object-fit: cover;" alt="Ảnh sản phẩm"
+          (click)="zoomImage()">
+        <div class="d-flex align-items-center mt-2" style="gap: 12px; flex-wrap: wrap;">
+          <img *ngFor="let image of product.productImages | slice:0:5"
+            [src]="'http://localhost:8080/images/product/' + image.imageUrl" class="img-thumbnail"
+            style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;"
+            (click)="changeImage(image.imageUrl)">
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h2>{{ product.name }}</h2>
+        <div>
+          <p class="mb-0 text-muted text-decoration-line-through small">
+            {{ product.price | currency:'VND' }}
+          </p>
+          <p class="mb-1 text-danger fw-bold">
+            {{ product.priceDiscount | currency:'VND' }}
+          </p>
+        </div>
+        <p>{{ product.description || 'Mô tả chưa có' }}</p>
+
+        <div class="mb-3">
+          <label class="form-label d-block">Kích cỡ</label>
+          <div class="btn-group flex-wrap" role="group">
+            <button *ngFor="let s of sizes" type="button" class="btn me-2 mb-2"
+              [ngClass]="{'btn-outline-dark': selectedSize !== s, 'btn-dark': selectedSize === s}"
+              (click)="selectedSize = s; loadInventory()">
+              {{ s }}
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label d-block">Màu</label>
+          <div class="btn-group flex-wrap" role="group">
+            <button *ngFor="let c of colors" type="button" class="btn me-2 mb-2"
+              [ngClass]="{'btn-outline-secondary': selectedColor !== c, 'btn-secondary': selectedColor === c}"
+              (click)="selectedColor = c; loadInventory()">
+              {{ c }}
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label d-block">Tồn kho</label>
+          <input disabled style="width: 70px;" type="text"
+            [value]="availableQuantity !== null ? availableQuantity : '---'">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Số lượng</label>
+          <input type="number" class="form-control" style="width: 100px;" [(ngModel)]="quantity" min="1"
+            [max]="availableQuantity">
+        </div>
+
+        <button class="btn btn-dark me-2"
+          [disabled]="!selectedSize || !selectedColor || (availableQuantity !== null && availableQuantity <= 0)"
+          (click)="addToCart()">
+          Thêm vào giỏ
+        </button>
+
+        <button class="btn btn-outline-secondary me-2" (click)="addToWish(userId, product.id)">Yêu thích</button>
+        <button class="btn btn-outline-secondary" (click)="buyNow()">Mua ngay</button>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="cardWithShadow">
+    <div *ngIf="product" style="margin: 10px;">
+      <div class="mt-3 text-center">
+        <button class="btn btn-outline-primary me-2" (click)="showDescription()">Mô tả sản phẩm</button>
+        <button class="btn btn-outline-primary" (click)="showReviews()">Đánh giá sản phẩm</button>
+      </div>
+
+      <div class="mt-4" style="margin: 25px;">
+        <div *ngIf="currentTab === 'description'">
+          <div class="row align-items-start">
+            <div class="col-md-4 mb-3">
+              <img style="height: 175px; width: 100%; object-fit: cover;" src="assets/images/banner/slide1.jpeg"
+                class="img-fluid rounded shadow-sm" alt="Banner 1">
+            </div>
+            <div class="col-md-8">
+              <p>{{ product.description || 'Mô tả chưa có' }}</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="currentTab === 'reviews'">
+          <h5>Đánh giá sản phẩm</h5>
+
+          <div>
+            <p class="text-muted fst-italic">Số lượt đánh giá: {{count}}</p>
+          </div>
+
+          <div *ngIf="productReviews.length > 0; else noReviews">
+            <div *ngFor="let review of paginatedReviews" class="review-item border-bottom py-2">
+              <div class="d-flex align-items-center justify-content-between flex-wrap small text-muted mb-1">
+                <div>
+                  <strong class="me-2">{{ review.user.username }}</strong>
+                  <span>{{ review.createdAt | date:'shortDate' }}</span>
+                </div>
+                <div class="text-warning">
+                  <ng-container *ngFor="let star of getStarsArray(review.rating)">
+                    <i *ngIf="star === 'full'" class="fas fa-star"></i>
+                    <i *ngIf="star === 'half'" class="fas fa-star-half-alt"></i>
+                    <i *ngIf="star === 'empty'" class="far fa-star"></i>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="text-body small">{{ review.review }}</div>
+            </div>
+
+
+            <nav class="mt-3">
+              <ul class="pagination justify-content-center">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                  <a class="page-link" (click)="changePage(currentPage - 1)">«</a>
+                </li>
+                <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index"
+                  [class.active]="currentPage === i + 1">
+                  <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                  <a class="page-link" (click)="changePage(currentPage + 1)">»</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <ng-template #noReviews>
+            <p class="text-muted fst-italic">Chưa có đánh giá nào cho sản phẩm này.</p>
+          </ng-template>
+
+          <div class="mt-4">
+            <h5>Viết đánh giá của bạn</h5>
+            <form (ngSubmit)="submitReview()">
+              <div class="mb-3">
+                <div id="rating" style="font-size: 1.1rem;">
+                  <i *ngFor="let star of [1,2,3,4,5]" (click)="selectStar(star)" class="fa-star"
+                    [class.fas]="star <= newReview.rating" [class.far]="star > newReview.rating"
+                    [class.text-warning]="true" style="cursor: pointer; margin-right: 5px;"></i>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="review" class="form-label">Đánh giá chi tiết</label>
+                <textarea id="review" class="form-control" [(ngModel)]="newReview.review" name="review" rows="2"
+                  required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" [disabled]="!newReview.rating || !newReview.review">
+                Gửi đánh giá
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <div *ngIf="!product">
+    <p>Đang tải sản phẩm...</p>
+  </div>
+</div>
+
+<app-footer></app-footer>
+<app-chatbot></app-chatbot>

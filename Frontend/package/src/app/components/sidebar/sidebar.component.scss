@@ -1,0 +1,17 @@
+/* sidebar.component.scss */
+.sidebar {
+     position: fixed;
+     top: 0;
+     right: -400px;
+     width: 400px;
+     height: 100vh;
+     background-color: #fff;
+     box-shadow: -2px 0 6px rgba(0, 0, 0, 0.2);
+     transition: right 0.3s ease;
+     z-index: 1050;
+     padding: 20px;
+   }
+   .sidebar.show {
+     right: 0;
+   }
+   

@@ -1,0 +1,23 @@
+<mat-toolbar class="topbar gap-10" style="display: flex; justify-content: space-between; align-items: center; background-color: #1976d2; color: white;">
+  
+  <span style="flex: 1; text-align: center; font-size: 24px; font-weight: bold;">
+    Website bán hàng
+  </span>
+  
+  <button mat-mini-fab [matMenuTriggerFor]="profilemenu" aria-label="User profile">
+    <img *ngIf="user" src="http://localhost:8080/images/avatar/{{ user.avatar }}" class="rounded-circle object-cover d-block" 
+      style="border-radius: 50%; width: 40px; height: 40px" />
+  </button>
+
+  <mat-menu #profilemenu="matMenu" class="cardWithShadow topbar-dd">
+    <button mat-menu-item [routerLink]="['/profile']">
+      <mat-icon class="d-flex align-items-center">
+        <i-tabler name="user" class="icon-18 d-flex"></i-tabler>
+      </mat-icon>
+      Tài khoản
+    </button>
+    <div class="p-x-12 m-t-12">
+      <a (click)="logout()" mat-stroked-button class="w-100">Đăng xuất</a>
+    </div>
+  </mat-menu>
+</mat-toolbar>

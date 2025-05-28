@@ -1,0 +1,108 @@
+<app-navbar></app-navbar>
+<div *ngIf="order" class="card" style="padding:20px">
+  <h3 style="margin-bottom: 20px;">🧾 Chi tiết đơn hàng #{{ order.id }}</h3>
+  <p><strong>Ngày đặt:</strong> {{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+  <p><strong>Trạng thái:</strong> {{
+    order.status === 'PENDING' ? 'Chờ xử lý' :
+    order.status === 'SHIPPED' ? 'Đang giao hàng' :
+    order.status === 'CONFIRMED' ? 'Đang xử lý' :
+    order.status === 'DELIVERED' ? 'Hoàn thành' :
+    order.status === 'CANCELED' ? 'Đã hủy' :
+    'Không xác định'
+    }}</p>
+  <p><strong>Tổng tiền:</strong> {{ order.totalPrice | currency:'VND' }}</p>
+
+  <h5 class="mt-4">📦 Sản phẩm:</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sản phẩm</th>
+        <th>Hình ảnh</th>
+        <th *ngIf="order.status === 'PENDING'">Số lượng</th>
+        <th *ngIf="order.status !== 'PENDING'">Số lượng</th>
+        <th>Giá</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of order.orderItems">
+        <td>{{ item.productVariant.product.name }}</td>
+        <td>
+          <img style="width: 50px; height: 50px;"
+            [src]="'http://localhost:8080/images/product/' + item.productVariant.product.productImages[0]?.imageUrl"
+            alt="img">
+        </td>
+        <td *ngIf="order.status === 'PENDING'">
+          <div class="d-flex align-items-center">
+            <input [(ngModel)]="item.quantity" type="number" min="1" class="form-control" style="width: 60px;" />
+            <button (click)="changeQuantity(item, -1)" class="btn btn-sm btn-secondary ms-2">-</button>
+            <button (click)="changeQuantity(item, 1)" class="btn btn-sm btn-primary ms-2">+</button>
+          </div>
+        </td>
+        <td *ngIf="order.status !== 'PENDING'">
+          {{ item.quantity }}
+        </td>
+        <td>{{ item.price | currency:'VND' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <h5 class="mt-4">📍 Địa chỉ giao hàng:</h5>
+  <p>
+    {{ order.userAddress.address }}
+  </p>
+
+  <div class="d-flex gap-3 mt-2">
+    <button *ngIf="order.status === 'PENDING'" (click)="updateOrder()" class="btn btn-primary">Sửa đơn hàng</button>
+    <button *ngIf="order.status === 'PENDING'" (click)="cancelOrder()" class="btn btn-danger">Hủy đơn hàng</button>
+    <button *ngIf="order.status === 'DELIVERED' && !order.supportTicket" 
+      class="btn btn-warning"
+      (click)="openReportModal(order.id); showReportForm = true">
+      Báo cáo đơn hàng
+    </button>
+  </div>
+
+  <!-- Hiển thị báo cáo nếu đã phản hồi -->
+  <div *ngIf="order.supportTicket" class="card shadow-sm mt-4">
+    <div class="card-body">
+      <h5 class="card-title">📝 Phản hồi đơn hàng</h5>
+      <p>
+        <strong>Mã báo cáo:</strong> {{ order.supportTicket.id || 'Không xác định' }}<br>
+        <strong>Ngày đặt:</strong> {{ order.supportTicket.createdAt | date:'dd/MM/yyyy HH:mm' }}<br>
+        <strong>Vấn đề:</strong> {{ order.supportTicket.issue }}<br>
+        <strong>Trạng thái:</strong>
+        {{
+        order.supportTicket.status === 'PENDING' ? 'Chờ xử lý' :
+        order.supportTicket.status === 'REPLIED' ? 'Đã phản hồi' :
+        'Không xác định'
+        }}
+        <br>
+        <strong>Ngày phản hồi:</strong> {{ order.supportTicket.repliedAt | date:'dd/MM/yyyy HH:mm' }}<br>
+        <strong>Phản hồi:</strong> {{ order.supportTicket.adminReply }}
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Form báo cáo đơn hàng -->
+<div class="custom-report-box" *ngIf="showReportForm">
+  <div class="card shadow border">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Báo cáo đơn hàng</h5>
+      <button type="button" class="btn-close" aria-label="Đóng" (click)="closeModal()"></button>
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="mb-3">
+          <label for="reportContent" class="form-label">Nội dung báo cáo</label>
+          <textarea [(ngModel)]="reportContent" name="reportContent" id="reportContent" class="form-control"
+            rows="4"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer text-end">
+      <button type="button" class="btn btn-secondary me-2" (click)="closeModal()">Hủy</button>
+      <button class="btn btn-primary" (click)="submitReport()" [disabled]="!reportContent.trim()">Gửi báo cáo</button>
+    </div>
+  </div>
+</div>

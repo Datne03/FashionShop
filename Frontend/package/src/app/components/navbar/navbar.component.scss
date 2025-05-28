@@ -1,0 +1,144 @@
+.sidebar-scrollable {
+  max-height: 500px; /* hoặc bất kỳ chiều cao nào bạn thấy hợp lý */
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+
+  img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 1rem;
+  }
+
+  .cart-info {
+    p {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 320px;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  overflow-y: auto;
+  z-index: 1050;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 4px 0;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-item:hover {
+  background-color: #f8f9fa;
+}
+
+.search-thumbnail {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #f1f1f1;
+}
+
+.search-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.search-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-price {
+  font-size: 13px;
+  font-weight: bold;
+  color: #d9534f;
+}
+
+.search-empty {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 12px;
+  color: #6c757d;
+  font-size: 14px;
+  z-index: 1050;
+  text-align: center;
+}
+
+
+
+.notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 320px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  z-index: 1050;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.notification-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notification-item:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.notification-header {
+  font-size: 15px;
+}
+
+.notification-item {
+  transition: background-color 0.2s ease;
+}
+
+
+.btn-icon {
+  min-width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+}

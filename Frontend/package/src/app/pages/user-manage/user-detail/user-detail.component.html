@@ -1,0 +1,51 @@
+<mat-card class="order-detail-card" style="padding:20px">
+     <mat-card-title><b>Thông tin user #{{ user?.id }}</b></mat-card-title>
+     <mat-card-content style="text-align: center;">
+          <img style="width: 150px; height: 150px; border-radius: 50%;"
+               src="http://localhost:8080/images/avatar/{{ user?.avatar }}" alt="">
+          <p><strong>Ten:</strong> {{ user?.username }}</p>
+          <p><strong>Email:</strong> {{ user?.email }}</p>
+          <p><strong>SDT:</strong> {{ user?.phone }}</p>
+     </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-3" style="padding:20px">
+     <mat-card-title><b>Đơn hàng đã đặt</b></mat-card-title>
+     <table class="table table-striped" style="text-align: center;">
+          <thead>
+               <tr>
+                    <th>STT</th>
+                    <th>Tổng giá</th>
+                    <th>Trạng thái</th>
+                    <th>Phương thức thanh toán</th>
+                    <th>Trạng thái thanh toán</th>
+               </tr>
+          </thead>
+          <tbody>
+               <tr *ngFor="let item of order">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.totalPrice | number:'1.0-0' }} VNĐ</td>
+                    <td>{{
+                         item.status === 'PENDING' ? 'Chờ xử lý' :
+                         item.status === 'CONFIRMED' ? 'Đang xử lý' :
+                         item.status === 'SHIPPED' ? 'Đang giao hàng' :
+                         item.status === 'DELIVERED' ? 'Hoàn thành' :
+                         item.status === 'CANCELED' ? 'Đã hủy' :
+                         'Không xác định'
+                         }}</td>
+                    <td>
+                         {{
+                         item.paymentStatus === 'PAID' ? 'Chờ thanh toán' :
+                         item.paymentStatus === 'UNPAID' ? 'Đã thanh toán' :
+                         item.paymentStatus === 'REFUNDED' ? 'Hoàn hàng' :
+                         'Không xác định'
+                         }}</td>
+                    <td>{{
+                         item.paymentMethod === 'CREDIT_CARD' ? 'Thanh toán Online' :
+                         item.paymentMethod === 'CASH_ON_DELIVERY' ? 'Thanh toán khi nhận hàng' :
+                         'Không xác định'
+                         }}</td>
+               </tr>
+          </tbody>
+     </table>
+</mat-card>

@@ -1,0 +1,28 @@
+<!-- Nút toggle -->
+<button class="toggle-btn" (click)="toggleMessagesPanel()">
+  💬 Tin nhắn
+</button>
+
+<!-- Chỉ hiện khi toggle mở -->
+<div *ngIf="showMessages">
+  <div id="webchat"></div>
+
+  <div class="chat-container">
+    <button class="close-btn" (click)="toggleMessagesPanel()">✖</button>
+
+    <div class="chat-box" style="padding-top: 50px;">
+      <div class="messages">
+        <div *ngFor="let msg of messages">
+          <div [ngClass]="{'user-message': msg.from === 'user', 'bot-message': msg.from === 'bot'}">
+            {{ msg.text }}
+          </div>
+        </div>
+      </div>
+
+      <div class="input-container">
+        <input [(ngModel)]="userMessage" placeholder="Nhập câu hỏi..." />
+        <button (click)="sendMessage()">Gửi</button>
+      </div>
+    </div>
+  </div>
+</div>

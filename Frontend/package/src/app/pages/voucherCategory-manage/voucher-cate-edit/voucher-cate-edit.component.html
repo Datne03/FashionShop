@@ -1,0 +1,40 @@
+<form>
+     <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Mã</mat-label>
+          <input matInput [(ngModel)]="code" name="code" />
+     </mat-form-field>
+
+     <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Giảm giá (%)</mat-label>
+          <input matInput type="number" [(ngModel)]="discount" name="discount" />
+     </mat-form-field>
+
+     <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Mô tả</mat-label>
+          <input matInput [(ngModel)]="description" name="description">
+     </mat-form-field>
+
+     <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Ngày bắt đầu</mat-label>
+          <input matInput type="date" [(ngModel)]="startDate" name="startDate" />
+     </mat-form-field>
+
+     <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Ngày kết thúc</mat-label>
+          <input matInput type="date" [(ngModel)]="endDate" name="endDate" />
+     </mat-form-field>
+
+     <!-- Danh mục -->
+     <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Danh mục</mat-label>
+          <input matInput [value]="cateName" name="cateName" disabled />
+     </mat-form-field>
+
+     <div class="actions">
+          <button mat-flat-button color="primary" (click)="onSave()"
+               [disabled]="!code || discount <= 0 || !startDate || !endDate">
+               Lưu
+          </button>
+          <button mat-stroked-button (click)="onCancel()">Hủy</button>
+     </div>
+</form>

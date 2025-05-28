@@ -1,0 +1,27 @@
+version: "3.1"
+
+intents:
+  - greet
+  - ask_product
+  - ask_price
+  - ask_shipping
+  - goodbye
+
+responses:
+  utter_greet:
+    - text: "Xin chào! Bạn muốn tìm gì hôm nay?"
+  
+  utter_ask_product:
+    - text: "Shop có rất nhiều mẫu sản phẩm. Bạn muốn xem sản phẩm nào?"
+  
+  utter_ask_price:
+    - text: "Chúng tôi có nhiều chương trình khuyến mãi. Bạn muốn hỏi về sản phẩm nào?"
+
+  utter_ask_shipping:
+    - text: "Chúng tôi giao hàng tận nơi với phí ship tùy theo khu vực. Bạn cần hỗ trợ thêm gì không?"
+
+  utter_goodbye:
+    - text: "Cảm ơn bạn đã ghé thăm! Hẹn gặp lại."
+
+actions:
+  - action_listen

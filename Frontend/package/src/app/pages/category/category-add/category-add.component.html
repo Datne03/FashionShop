@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>Thêm danh mục</h2>
+
+<mat-dialog-content class="dialog-content">
+  <div class="form-group">
+    <mat-form-field  style="margin-top:10px" class="full-width" appearance="outline" color="primary">
+      <mat-label>Tên danh mục</mat-label>
+      <input matInput class="" [(ngModel)]="name" required />
+    </mat-form-field>
+   
+  </div>
+
+  <div class="form-group">
+    <mat-form-field class="full-width" appearance="outline" color="primary">
+      <mat-label>Mô tả</mat-label>
+      <textarea matInput [(ngModel)]="description" required></textarea>
+    </mat-form-field>
+  </div>
+
+  <!-- ✅ Chỉ hiển thị nếu đã tạo danh mục -->
+  <div *ngIf="isCreateCate">
+    <label>Ảnh danh mục:</label>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+
+    <div *ngIf="selectedFilePreview" class="image-preview">
+      <p>Ảnh đã chọn:</p>
+      <img [src]="selectedFilePreview" alt="Preview" height="100" />
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Hủy</button>
+
+  <button mat-button color="warn"
+          (click)="onUploadImage()"
+          [disabled]="!isCreateCate">
+    Lưu ảnh
+  </button>
+
+  <button mat-flat-button color="primary"
+          (click)="onSaveCategory()"
+          [disabled]="isCreateCate">
+    Lưu danh mục
+  </button>
+</mat-dialog-actions>
+<style>
+  .full-width {
+    width: 100%;
+  }
+  
+  .form-group {
+    margin-bottom: 16px; /* thêm khoảng cách nếu cần */
+  }
+  
+</style>

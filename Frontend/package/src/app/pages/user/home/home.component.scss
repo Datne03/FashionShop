@@ -1,0 +1,25 @@
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Tùy chỉnh khoảng cách trên cùng */
+}
+
+.card-body h6 {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card {
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}

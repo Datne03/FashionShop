@@ -1,0 +1,152 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: tomato; padding-inline: 150px; height: 70px">
+  <a class="navbar-brand fw-bold" href="/home">
+    <img src="assets/images/logos/logo.jpg" style="height: 50px; width: 100px;" alt="">
+  </a>
+
+  <div #searchContainer class="position-relative mx-auto" style="width: 40%;">
+    <form class="d-flex" (ngSubmit)="onSearch()">
+      <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm..." [(ngModel)]="searchName"
+        name="searchName" required>
+      <button class="btn btn-outline-light" type="submit">Tìm</button>
+    </form>
+
+    <div *ngIf="searchResults.length > 0" class="search-dropdown shadow-sm">
+      <div *ngFor="let product of searchResults" class="p-2 border-bottom d-flex align-items-center gap-2"
+        (click)="goToProductDetail(product.id)">
+        <img class="search-thumbnail"
+          [src]="'http://localhost:8080/images/product/' + product.productImages[0]?.imageUrl" alt="Ảnh sản phẩm">
+        <div class="search-info">
+          <div class="search-name">{{ product.name }}</div>
+          <div class="search-price">{{ product.price | currency:'VND' }}</div>
+        </div>
+      </div>
+      <div *ngIf="searchResults.length === 0" class="p-2 text-muted">
+        Không tìm thấy sản phẩm nào.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="position-relative mx-2" #notificationRef (click)="toggleNotification()">
+    <a class="nav-link cursor-pointer d-flex align-items-center gap-1" style="color: white;">
+      <lucide-icon name="bell" size="18" stroke-width="2" color="white"></lucide-icon>
+      Thông báo
+    </a>
+
+    <!-- Dropdown thông báo -->
+    <div *ngIf="notificationOpen" class="notification-dropdown shadow-lg">
+      <div class="notification-header px-3 py-2 border-bottom fw-bold text-primary bg-light">
+        Thông báo
+      </div>
+
+      <div class="notification-scroll">
+        <div *ngIf="notifications.length === 0" class="text-muted text-center py-3">
+          Không có thông báo nào.
+        </div>
+
+        <div *ngFor="let notify of notifications" class="notification-item d-flex flex-column px-3 py-2 border-bottom">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="fw-semibold text-dark" style="font-size: 13.5px;">
+              {{ notify.content }}
+            </div>
+          </div>
+          <div class="text-muted small mt-1" style="font-size: 11px;">
+            <i class="far fa-clock me-1"></i>{{ notify.createdAt | date:'dd/MM/yyyy HH:mm' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <a [routerLink]="'/chat-user'" class="nav-link mx-2 d-flex align-items-center gap-1" style="color: white;">
+    <lucide-icon name="message-square" size="18" stroke-width="2" color="white"></lucide-icon>
+    Liên hệ
+  </a>
+
+  <a class="nav-link mx-2 d-flex align-items-center gap-1" style="color: white;" (click)="openSidebar('wish')">
+    <lucide-icon name="heart" size="18" stroke-width="2" color="white"></lucide-icon>
+    Yêu thích
+  </a>
+
+  <a class="nav-link mx-2 d-flex align-items-center gap-1" style="color: white;" (click)="openSidebar('cart')">
+    <lucide-icon name="shopping-cart" size="18" stroke-width="2" color="white"></lucide-icon>
+    Giỏ hàng
+  </a>
+
+  <div class="nav-item dropdown mx-2" [ngClass]="{ 'show': accountMenuOpen }" (click)="toggleAccountMenu($event)">
+    <a class="nav-link dropdown-toggle d-flex align-items-center gap-1" style="color: white;" href="#" role="button">
+      <lucide-icon name="user" size="18" stroke-width="2" color="white"></lucide-icon>
+      Tài khoản
+    </a>
+    <div class="dropdown-menu dropdown-menu-end mt-2" [ngClass]="{ 'show': accountMenuOpen }">
+      <a class="dropdown-item" [routerLink]="['/my-account']">Tài khoản của tôi</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item text-danger" (click)="logout()">Đăng xuất</a>
+    </div>
+  </div>
+
+</nav>
+
+<app-sidebar [isOpen]="sidebarOpen" [title]="sidebarTitle" (closed)="sidebarOpen = false">
+  <div class="sidebar-scrollable">
+    <ng-container *ngIf="sidebarType === 'wish'">
+      <div style="margin-top: 20px;" *ngFor="let item of wishList" class="cart-item d-flex align-items-start mb-3">
+        <img style="width: 50px; height: 50px; object-fit: cover;" *ngIf="item.product?.productImages?.[0]"
+          [src]="'http://localhost:8080/images/product/' + item.product.productImages[0].imageUrl" class="me-3"
+          alt="Sản phẩm" />
+
+        <div class="cart-info me-auto">
+          <p class="mb-1 fw-bold">{{ item.product.name }}</p>
+          <p class="mb-1">{{ item.product.price | currency: 'VND' }}</p>
+        </div>
+
+        <!-- Nút giỏ hàng nhỏ, icon giữa -->
+        <button mat-stroked-button color="primary" class="btn-icon me-2" (click)="openProductModal(item)">
+          <lucide-icon name="shopping-cart" size="18" stroke-width="2"></lucide-icon>
+        </button>
+
+        <!-- Nút xoá nhỏ, icon giữa -->
+        <button mat-stroked-button color="warn" class="btn-icon" (click)="deleteWish(2, item.product.id)">
+          <lucide-icon name="trash" size="18" stroke-width="2"></lucide-icon>
+        </button>
+
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="sidebarType === 'cart'">
+      <div *ngIf="cartItems && cartItems.length > 0; else emptyCart">
+        <div style="margin-top: 20px;" *ngFor="let item of cartItems" class="cart-item d-flex align-items-start mb-3">
+          <img style="width: 50px; height: 50px; object-fit: cover;"
+            *ngIf="item.productVariant.product && item.productVariant.product.productImages && item.productVariant.product.productImages[0]"
+            [src]="'http://localhost:8080/images/product/' + item.productVariant.product.productImages[0].imageUrl"
+            class="me-3" alt="Sản phẩm" />
+
+          <div class="cart-info">
+            <p *ngIf="item.productVariant" class="mb-1 fw-bold">{{ item.productVariant.product.name }}</p>
+            <p *ngIf="item.productVariant" class="mb-1">{{ item.productVariant.product.price | currency: 'VND' }}</p>
+          </div>
+
+          <div class="d-flex align-items-center" style="margin-top: 10px; margin-left: auto;; margin-right: 10px;">
+            <button class="btn btn-sm btn-outline-secondary me-1" (click)="changeQuantity(item, -1)">-</button>
+            <input class="form-control form-control-sm text-center" style="width: 40px;" type="text"
+              [value]="item.quantity" readonly>
+            <button class="btn btn-sm btn-outline-secondary ms-1" (click)="changeQuantity(item, 1)">+</button>
+          </div>
+
+          <button style="margin-top: 10px;" mat-stroked-button color="warn" class="btn-icon"
+            (click)="deleteCart(userId, item.productVariant.id)">
+            <lucide-icon name="trash" size="18" stroke-width="2"></lucide-icon>
+          </button>
+        </div>
+
+        <button mat-flat-button color="secondary" (click)="goToCheckout()">Thanh toán</button>
+      </div>
+
+      <ng-template #emptyCart>
+        <p>Giỏ hàng trống.</p>
+      </ng-template>
+    </ng-container>
+
+  </div>
+</app-sidebar>

@@ -1,0 +1,10 @@
+<mat-card class="cardWithShadow" style="margin-right: 30px;">
+     <mat-card-content>
+          <mat-card-title>Thống kê đơn hàng</mat-card-title>
+          <div class="m-t-30">
+               <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+                    [responsive]="chartOptions.responsive" [legend]="chartOptions.legend">
+               </apx-chart>
+          </div>
+     </mat-card-content>
+</mat-card>
